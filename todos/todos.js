@@ -1,10 +1,10 @@
-import { 
-    checkAuth, 
-    createTodo, 
+import {
+    checkAuth,
+    createTodo,
     completeTodo,
     getTodos,
     logout,
-    deleteAllTodos, 
+    deleteAllTodos,
 } from '../fetch-utils.js';
 import { renderTodo } from '../render-utils.js';
 
@@ -17,32 +17,45 @@ const deleteButton = document.querySelector('.delete-button');
 
 todoForm.addEventListener('submit', async (e) => {
     // on submit, create a todo, reset the form, and display the todos
+    e.preventDefault();
+    const data = new FormData(todoForm);
+    const todo = data.get('todo');
+    await createTodo(todo);
+    todoForm.reset();
+    displayTodos();
 });
 
 // create todo state
 
 // add async complete todo handler function
-    // call completeTodo
-    // swap out todo in array
-    // call displayTodos
-
-   
+// call completeTodo
+// swap out todo in array
+// call displayTodos
 
 async function displayTodos() {
     // clear the container (.innerHTML = '')
-    // display the list of todos, 
-          // call render function, pass in state and complete handler function!
-          // append to .todos
+    todosEl.textContent = '';
+    // display the list of todos,
+    const todos = await getTodos();
+    // call render function, pass in state and complete handler function!
+    for (let todo of todos) {
+        const todoEl = renderTodo(todo);
+        todoEl.addEventListener('click', async () => {
+            await completeTodo(todo.id);
+            displayTodos();
+        });
+        // append to .todos
+        todosEl.append(todoEl);
+    }
 }
 
 // add page load function
-    // fetch the todos and store in state
-    // call displayTodos
+// fetch the todos and store in state
+// call displayTodos
 
 logoutButton.addEventListener('click', () => {
     logout();
 });
-
 
 deleteButton.addEventListener('click', async () => {
     // delete all todos
