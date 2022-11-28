@@ -50,6 +50,9 @@ async function displayTodos() {
 }
 
 // add page load function
+window.addEventListener('load', async () => {
+    displayTodos();
+});
 // fetch the todos and store in state
 // call displayTodos
 
