@@ -16,6 +16,7 @@ export async function createTodo(todo) {
 }
 
 export async function deleteAllTodos() {
+    await client.from('todos').delete().match({ user_id: client.auth.user().id });
     // delete all todos for this user in supabase
     // once you have a response from supabase, comment this back in:
     // return checkError(response);
